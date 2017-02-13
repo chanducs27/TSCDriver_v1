@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_welcome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fantasik.tscdriver.tscdriver.WelcomeActivity"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Holo.NoActionBar">
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/splash"
+            android:orientation="vertical">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            >
+
+                <Button
+                    android:text="Button"
+                    android:id="@+id/button"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:height="400dp"
+                    android:visibility="invisible"
+                    android:clickable="false"
+                    android:focusable="false" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_light"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:text="Welcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/holo_orange_light"
+                    android:layout_margin="5dp"
+                    android:textSize="18sp" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/background_light"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:text="Welcome to our new TscCab driver App. You can register or signin to use this app."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/darker_gray"
+                    android:padding="5dp" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_light"
+                android:gravity="center"
+           >
+
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" >
+
+                        <ImageButton
+                            app:srcCompat="@drawable/login"
+                            android:id="@+id/imageButton4"
+                            android:layout_column="0"
+                            android:layout_weight=".5"
+                            android:layout_width="0dp"
+                            android:background="@android:color/background_light"
+                            android:scaleType="fitXY"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_height="40dp" />
+
+                        <ImageButton
+                            app:srcCompat="@drawable/reg"
+                            android:id="@+id/imageButton5"
+                            android:layout_column="1"
+                            android:scaleType="fitXY"
+                            android:layout_weight=".5"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:background="@android:color/background_light"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp" />
+
+                    </TableRow>
+
+                </TableLayout>
+            </TableRow>
+        </TableLayout>
+
+</LinearLayout>

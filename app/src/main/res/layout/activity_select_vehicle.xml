@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_select_vehicle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.fantasik.tscdriver.tscdriver.SelectVehicleActivity"
+>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="100">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:weightSum="1">
+
+            <TextView
+                android:text="PLEASE CHOOSE HOW WOULD YOU LIKE TO PARTNER WITH CITYCAB"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/textView5"
+                android:layout_weight="1"
+                android:lineSpacingExtra="3sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="8dp"
+                android:clickable="true"
+                android:id="@+id/microcard">
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/background_light">
+
+                    <LinearLayout
+                        android:background="@android:color/background_light"
+                        android:padding="10dp"
+                        android:weightSum="1"
+                        android:layout_height="40dp"
+                        android:layout_width="325dp">
+
+
+                        <ImageView
+                            app:srcCompat="@drawable/micro_not"
+                            android:id="@+id/imgmicro"
+                            android:scaleType="fitXY"
+                            android:layout_height="15dp"
+                            android:layout_width="25dp" />
+
+                        <TextView
+                            android:text="TSCCab Micro"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView6"
+                            android:background="@android:color/background_light"
+                            android:textColor="@android:color/darker_gray"
+                            android:paddingLeft="10dp"
+                            android:layout_weight=".7" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ok"
+                            android:id="@+id/imgmicrook"
+                            android:layout_weight="1"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:weightSum="100"
+                        android:visibility="gone"
+                        android:id="@+id/microdetail">
+
+                        <TextView
+                            android:text="You are a commercially insured driver. Your vehicle is a mid-siie or full-size vehicle that comfartibly seats 4 persons or more."
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView8"
+                            android:layout_weight="90"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/mini_person"
+                            android:id="@+id/imageView2"
+                            android:layout_height="60dp"
+                            android:layout_width="45dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:paddingTop="10dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="8dp"
+                android:clickable="true"
+                android:id="@+id/minicard" >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/background_light">
+
+                    <LinearLayout
+                        android:background="@android:color/background_light"
+                        android:padding="10dp"
+                        android:weightSum="1"
+                        android:layout_height="40dp"
+                        android:layout_width="325dp">
+
+
+                        <ImageView
+                            app:srcCompat="@drawable/mini"
+                            android:id="@+id/imgmini"
+                            android:scaleType="fitXY"
+                            android:layout_height="15dp"
+                            android:layout_width="25dp" />
+
+                        <TextView
+                            android:text="TSCCab Mini"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView34"
+                            android:background="@android:color/background_light"
+                            android:textColor="@android:color/darker_gray"
+                            android:paddingLeft="10dp"
+                            android:layout_weight=".7" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ok"
+                            android:id="@+id/imgminiok"
+                            android:layout_weight="1"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:weightSum="100"
+                        android:visibility="gone"
+                        android:id="@+id/minidetail">
+
+                        <TextView
+                            android:text="You are a commercially insured driver. Your vehicle is a mid-siie or full-size vehicle that comfartibly seats 2 persons or more."
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textViewer"
+                            android:layout_weight="90"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/mini_person"
+                            android:id="@+id/imageView234"
+                            android:layout_height="60dp"
+                            android:layout_width="45dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30" />
+    </TableLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="Next"
+            android:layout_height="wrap_content"
+            android:id="@+id/butNext"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="350dp"
+            android:background="@color/cardview_dark_background"
+            android:textColor="@android:color/background_light"
+            android:textStyle="normal|bold"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TSCDriver</string>
+
+    <string-array name="years">
+        <item>1980</item>
+        <item>1981</item>
+        <item>1982</item>
+    </string-array>
+
+</resources>
