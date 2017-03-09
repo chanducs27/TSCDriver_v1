@@ -6,5 +6,8 @@
         <item>1981</item>
         <item>1982</item>
     </string-array>
+    <string name="title_activity_driver">DriverActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

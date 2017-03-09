@@ -20,7 +20,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         btnext = (Button) findViewById(R.id.butNext);
         btnext.setOnClickListener(this);
-        btnext.setOnClickListener(this);
     }
 
 
