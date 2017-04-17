@@ -69,12 +69,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             editor.putString("email", tEmail.getText().toString());
             editor.putString("phone", tphone.getText().toString());
             editor.putString("passw", tPass.getText().toString());
-            editor.commit();
+            editor.apply();
 
             this.startActivity(myIntent);
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
-
-        return;
     }
 }

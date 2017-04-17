@@ -3,6 +3,8 @@ package com.fantasik.tscdriver.tscdriver;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -49,14 +51,18 @@ public class SelectVehicleActivity extends AppCompatActivity implements View.OnC
         if (v == huyt)
         {
             if(!showmicrodet) {
-                TransitionManager.beginDelayedTransition(huyt);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    TransitionManager.beginDelayedTransition(huyt);
+                }
                 microdet.setVisibility(View.VISIBLE);
                 microok.setVisibility(View.VISIBLE);
                 showmicrodet = true;
             }
             else
             {
-                TransitionManager.beginDelayedTransition(huyt);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    TransitionManager.beginDelayedTransition(huyt);
+                }
                 microdet.setVisibility(View.GONE);
                 microok.setVisibility(View.GONE);
                 showmicrodet = false;
@@ -67,14 +73,18 @@ public class SelectVehicleActivity extends AppCompatActivity implements View.OnC
         if (v == minicardview)
         {
             if(!showminidet) {
-                TransitionManager.beginDelayedTransition(minicardview);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    TransitionManager.beginDelayedTransition(minicardview);
+                }
                 minidet.setVisibility(View.VISIBLE);
                 miniok.setVisibility(View.VISIBLE);
                 showminidet = true;
             }
             else
             {
-                TransitionManager.beginDelayedTransition(minicardview);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    TransitionManager.beginDelayedTransition(minicardview);
+                }
                 minidet.setVisibility(View.GONE);
                 miniok.setVisibility(View.GONE);
                 showminidet = false;

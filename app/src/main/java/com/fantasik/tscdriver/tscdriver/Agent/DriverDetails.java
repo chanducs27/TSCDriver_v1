@@ -1,5 +1,7 @@
 package com.fantasik.tscdriver.tscdriver.Agent;
 
+import org.json.JSONObject;
+
 public class DriverDetails
 {
 
@@ -9,4 +11,6 @@ public class DriverDetails
     public String photo;
     public String vehiclecode;
     public String vehiclename;
+
+
 }
