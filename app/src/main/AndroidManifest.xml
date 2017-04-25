@@ -42,10 +42,6 @@
             android:label="Add Vehicle Details"
             android:screenOrientation="portrait"
             android:theme="@style/TscCab" />
-        <activity
-            android:name=".DriverActivity"
-            android:label="@string/title_activity_driver"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -59,11 +55,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".HomeActivity"
-            android:label="@string/title_activity_home" />
-        <activity
-            android:name=".SemoMapsActivity"
-            android:label="@string/title_activity_semo_maps"></activity>
+            android:name=".DriverMainActivity"
+            android:label="@string/title_activity_driver_main"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>
