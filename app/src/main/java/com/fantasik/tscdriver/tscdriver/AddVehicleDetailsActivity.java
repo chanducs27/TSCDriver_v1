@@ -1,8 +1,12 @@
 package com.fantasik.tscdriver.tscdriver;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -60,7 +64,8 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
     @BindView(R.id.activity_add_vehicle_details)
     RelativeLayout activityAddVehicleDetails;
     private RequestQueue mRequestQueue;
-
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
     Gson gson;
 
     @Override
@@ -91,22 +96,28 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         if (v == butNext) {
+            final ProgressDialog pd = new ProgressDialog(AddVehicleDetailsActivity.this);
 
-            Intent intent = new Intent(AddVehicleDetailsActivity.this, DriverMainActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            // Set progress dialog style spinner
+            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+            pd.setMessage("Loading.........");
+            pd.setCancelable(false);
+            // Set the progress dialog background color
+            pd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFD4D9D0")));
+            pd.setIndeterminate(true);
+
+            // Finally, show the progress dialog
+            pd.show();
+
+
+
            RequestQueue requestQueue = Volley.newRequestQueue(this);
             String url = "http://10.0.2.2:8076/Service1.svc/Driver/Register";
 
             SharedPreferences editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
-            editor.getString("fname", "");
-            editor.getString("lname", "");
-            editor.getString("email", "");
-            editor.getString("phone", "");
-            editor.getString("passw", "");
 
-/*
            final JSONObject GH =new JSONObject();
             try {
                 GH.put("fname",editor.getString("fname", ""));
@@ -123,14 +134,23 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 @Override
                 public void onResponse(String response)
                 {
-
+                    pd.dismiss();
+                    if(response == "true") {
+                        Intent intent = new Intent(AddVehicleDetailsActivity.this, DriverMainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    }
                 }
             }, new com.android.volley.Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
+                    pd.dismiss();
                 }
-            }, GH);*/
+            }, GH);
+
+            getRequest.setShouldCache(false);
+            requestQueue.add(getRequest);
 
 
          /*   StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -168,10 +188,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
             };
 */
 
-           // getRequest.setShouldCache(false);
 
-
-          //  requestQueue.add(getRequest);
             //requestQueue.start();
         }
     }
