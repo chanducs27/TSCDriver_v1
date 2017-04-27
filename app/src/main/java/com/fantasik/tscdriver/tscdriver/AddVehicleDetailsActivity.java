@@ -92,9 +92,9 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         if (v == butNext) {
 
-          //  Intent intent = new Intent(AddVehicleDetailsActivity.this, SemoMapsActivity.class);
-          //  startActivity(intent);
-          //  overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            Intent intent = new Intent(AddVehicleDetailsActivity.this, DriverMainActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
            RequestQueue requestQueue = Volley.newRequestQueue(this);
             String url = "http://10.0.2.2:8076/Service1.svc/Driver/Register";
 
@@ -106,7 +106,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
             editor.getString("phone", "");
             editor.getString("passw", "");
 
-
+/*
            final JSONObject GH =new JSONObject();
             try {
                 GH.put("fname",editor.getString("fname", ""));
@@ -130,7 +130,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 public void onErrorResponse(VolleyError error)
                 {
                 }
-            }, GH);
+            }, GH);*/
 
 
          /*   StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -171,7 +171,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
            // getRequest.setShouldCache(false);
 
 
-            requestQueue.add(getRequest);
+          //  requestQueue.add(getRequest);
             //requestQueue.start();
         }
     }

@@ -51,7 +51,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         super.onViewCreated(view, savedInstanceState);
 
         //setContentView(R.layout.content_user_map);
-        SupportMapFragment fragment = (SupportMapFragment ) getFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment fragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
         fragment.getMapAsync(this);
     }
 
@@ -127,6 +127,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                             Manifest.permission.ACCESS_FINE_LOCATION},
                     200);
         }
+        else
+        {
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -139,7 +141,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             onLocationChanged(location);
         }
         locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
-    }
+    }}
 
 
 }

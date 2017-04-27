@@ -1,5 +1,6 @@
 package com.fantasik.tscdriver.tscdriver;
 
+import android.app.Dialog;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -43,8 +44,6 @@ public class DriverMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -56,8 +55,11 @@ public class DriverMainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-
-
+     /*   // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.pickup_request);
+        dialog.setTitle("Title...");
+        dialog.show();*/
     }
 
 
@@ -98,10 +100,10 @@ public class DriverMainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if(position == 1) {
+          //  if(position == 0) {
                 return new MapsFragment();
-            }
-                return null;
+          //  }
+            //    return null;
         }
 
         @Override
