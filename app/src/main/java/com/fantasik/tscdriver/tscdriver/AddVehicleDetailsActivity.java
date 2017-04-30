@@ -67,6 +67,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
     private int progressStatus = 0;
     private Handler handler = new Handler();
     Gson gson;
+  String userid="-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,17 +98,11 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         if (v == butNext) {
             final ProgressDialog pd = new ProgressDialog(AddVehicleDetailsActivity.this);
-
-            // Set progress dialog style spinner
             pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
             pd.setMessage("Loading.........");
             pd.setCancelable(false);
-            // Set the progress dialog background color
             pd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFD4D9D0")));
             pd.setIndeterminate(true);
-
-            // Finally, show the progress dialog
             pd.show();
 
 
@@ -117,14 +112,13 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
 
             SharedPreferences editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
-
            final JSONObject GH =new JSONObject();
             try {
                 GH.put("fname",editor.getString("fname", ""));
                 GH.put("lname",editor.getString("lname", ""));
                 GH.put("email",editor.getString("email", ""));
                 GH.put("phone",editor.getString("phone", ""));
-                GH.put("passw",editor.getString("passw", ""));
+                GH.put("pass",editor.getString("passw", ""));
 
 
             } catch (JSONException e) {
@@ -135,10 +129,8 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 public void onResponse(String response)
                 {
                     pd.dismiss();
-                    if(response == "true") {
-                        Intent intent = new Intent(AddVehicleDetailsActivity.this, DriverMainActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    if(response != "-1") {
+                      userid = response;
                     }
                 }
             }, new com.android.volley.Response.ErrorListener() {
@@ -153,43 +145,6 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
             requestQueue.add(getRequest);
 
 
-         /*   StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d("Response", response);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("Response", error.toString());
-                }
-            }){
-
-                @Override
-                protected Map<String, String> getParams()
-                {
-                    Map<String, String>  params = new HashMap<>();
-                    params.put("dd","fdgv");
-                    return params;
-                }   @Override
-                public String getBodyContentType() {
-                    return "application/json";
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-
-                    Map<String, String> param = new HashMap<String, String>();
-
-                    return param;
-                }
-
-            };
-*/
-
-
-            //requestQueue.start();
         }
     }
 
