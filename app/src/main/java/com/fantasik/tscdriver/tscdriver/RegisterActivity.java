@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
+import com.fantasik.tscdriver.tscdriver.Agent.SPreferences;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -47,7 +49,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-
+        SPreferences.ClearPreferences(this);
+        
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -60,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (v == btnext) {
             Intent myIntent = new Intent(RegisterActivity.this, SelectVehicleActivity.class);
-            myIntent.putExtra("key", "demo"); //Optional parameters
 
             SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
 

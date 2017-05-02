@@ -57,16 +57,18 @@
         <activity
             android:name=".DriverMainActivity"
             android:label="@string/title_activity_driver_main"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".OnTripActivity" />
+            android:theme="@style/TscCab" />
+        <activity android:name=".OnTripActivity"  android:theme="@style/TscCab"/>
 
-        <application>
             <activity
                 android:name=".CollectCashActivity"
                 android:theme="@style/TscCab" />
-        </application>
 
-        <activity android:name=".RateTripActivity" android:theme="@style/TscCab"></activity>
+        <activity
+            android:name=".RateTripActivity"
+            android:theme="@style/TscCab" />
+        <activity android:name=".LoginActivity"></activity>
+
     </application>
 
 </manifest>

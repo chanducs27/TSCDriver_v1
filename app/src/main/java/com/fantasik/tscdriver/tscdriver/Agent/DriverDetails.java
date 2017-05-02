@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class DriverDetails
 {
-    public String userid;
+    public String driverid;
     public String name;
     public String mobile;
     public String username;

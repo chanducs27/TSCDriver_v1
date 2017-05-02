@@ -87,32 +87,32 @@
                         android:layout_weight="1" >
 
                         <ImageButton
-                            app:srcCompat="@drawable/login"
-                            android:id="@+id/imageButton4"
-                            android:layout_column="0"
-                            android:layout_weight=".5"
+                            android:id="@+id/btnlogin"
                             android:layout_width="0dp"
-                            android:background="@android:color/background_light"
-                            android:scaleType="fitXY"
+                            android:layout_height="40dp"
+                            android:layout_column="0"
+                            android:layout_marginBottom="15dp"
                             android:layout_marginLeft="30dp"
                             android:layout_marginRight="30dp"
                             android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:layout_height="40dp" />
+                            android:layout_weight=".5"
+                            android:background="@android:color/background_light"
+                            android:scaleType="fitXY"
+                            app:srcCompat="@drawable/login" />
 
                         <ImageButton
-                            app:srcCompat="@drawable/reg"
-                            android:id="@+id/imageButton5"
-                            android:layout_column="1"
-                            android:scaleType="fitXY"
-                            android:layout_weight=".5"
+                            android:id="@+id/btnRegister"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
-                            android:background="@android:color/background_light"
+                            android:layout_column="1"
                             android:layout_marginBottom="15dp"
-                            android:layout_marginTop="15dp"
                             android:layout_marginLeft="30dp"
-                            android:layout_marginRight="30dp" />
+                            android:layout_marginRight="30dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight=".5"
+                            android:background="@android:color/background_light"
+                            android:scaleType="fitXY"
+                            app:srcCompat="@drawable/reg" />
 
                     </TableRow>
 

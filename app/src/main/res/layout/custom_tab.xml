@@ -2,7 +2,8 @@
     android:id="@+id/tab"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:textColor="#FFFFFF"
-    android:textSize="14sp"
-    android:textStyle="bold" />
+    android:textSize="9sp"
+    android:textStyle="bold"
+   />

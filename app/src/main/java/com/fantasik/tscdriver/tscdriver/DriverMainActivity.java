@@ -1,6 +1,9 @@
 package com.fantasik.tscdriver.tscdriver;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -46,6 +49,7 @@ public class DriverMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_main);
+       // getSupportActionBar().hide();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -54,10 +58,10 @@ public class DriverMainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mSectionsPagerAdapter.addFrag(new MapsFragment(), "HOME");
-        mSectionsPagerAdapter.addFrag(new MapsFragment(), "EARNINGS");
-        mSectionsPagerAdapter.addFrag(new MapsFragment(), "RATINGS");
-        mSectionsPagerAdapter.addFrag(new MapsFragment(), "ACCOUNT");
-        mSectionsPagerAdapter.addFrag(new MapsFragment(), "ONLINE");
+        mSectionsPagerAdapter.addFrag(new Fragment(), "EARNINGS");
+        mSectionsPagerAdapter.addFrag(new Fragment(), "RATINGS");
+        mSectionsPagerAdapter.addFrag(new Fragment(), "ACCOUNT");
+        mSectionsPagerAdapter.addFrag(new Fragment(), "ONLINE");
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -75,9 +79,46 @@ public class DriverMainActivity extends AppCompatActivity {
 
     private void createTabIcons() {
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabOne.setText("Tab 1");
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.imghome, 0, 0);
+        tabOne.setText("HOME");
+
+        Drawable dr = this.getResources().getDrawable(R.drawable.imghome);
+        Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+        Drawable dre = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, 60, 60, true));
+
+        tabOne.setCompoundDrawablesWithIntrinsicBounds(null, dre, null, null);
         tabLayout.getTabAt(0).setCustomView(tabOne);
+
+        TextView tab2 = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tab2.setText("EARNINGS");
+         dr = this.getResources().getDrawable(R.drawable.imgearnings);
+         bitmap = ((BitmapDrawable) dr).getBitmap();
+         dre = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, 60, 60, true));
+        tab2.setCompoundDrawablesWithIntrinsicBounds(null, dre, null, null);
+        tabLayout.getTabAt(1).setCustomView(tab2);
+
+        TextView tab3 = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tab3.setText("RATINGS");
+        dr = this.getResources().getDrawable(R.drawable.imgrating);
+        bitmap = ((BitmapDrawable) dr).getBitmap();
+        dre = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, 60, 60, true));
+        tab3.setCompoundDrawablesWithIntrinsicBounds(null, dre, null, null);
+        tabLayout.getTabAt(2).setCustomView(tab3);
+
+        TextView tab4 = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tab4.setText("ACCOUNT");
+        dr = this.getResources().getDrawable(R.drawable.imgaccount);
+        bitmap = ((BitmapDrawable) dr).getBitmap();
+        dre = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, 60, 60, true));
+        tab4.setCompoundDrawablesWithIntrinsicBounds(null, dre, null, null);
+        tabLayout.getTabAt(3).setCustomView(tab4);
+
+        TextView tab5 = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tab5.setText("ONLINE");
+        dr = this.getResources().getDrawable(R.drawable.imgonline);
+        bitmap = ((BitmapDrawable) dr).getBitmap();
+        dre = new BitmapDrawable(this.getResources(), Bitmap.createScaledBitmap(bitmap, 90, 60, true));
+        tab5.setCompoundDrawablesWithIntrinsicBounds(null, dre, null, null);
+        tabLayout.getTabAt(4).setCustomView(tab5);
 
     }
 

@@ -67,7 +67,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
     private int progressStatus = 0;
     private Handler handler = new Handler();
     Gson gson;
-  String userid="-1";
+  String driverid="-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
            RequestQueue requestQueue = Volley.newRequestQueue(this);
             String url = "http://10.0.2.2:8076/Service1.svc/Driver/Register";
 
-            SharedPreferences editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+           final SharedPreferences editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
            final JSONObject GH =new JSONObject();
             try {
@@ -130,7 +130,18 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 {
                     pd.dismiss();
                     if(response != "-1") {
-                      userid = response;
+                        driverid = response;
+
+                        SharedPreferences.Editor editord = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                        editord.putString("userid", driverid);
+                        editord.putString("username", editor.getString("email", ""));
+                        editord.putString("pass", editor.getString("passw", ""));
+
+                        editord.apply();
+
+                        Intent intent = new Intent(AddVehicleDetailsActivity.this, DriverMainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     }
                 }
             }, new com.android.volley.Response.ErrorListener() {
