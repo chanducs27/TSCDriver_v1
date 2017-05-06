@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
@@ -56,7 +57,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -69,6 +74,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     Handler handlerPickUpReuest;
     GoogleMap googleMap;
     String currentlat, currentlng, rideid;
+    static List<String> ignorelist = new ArrayList<String>();
 
     public MapsFragment() {
         // Required empty public constructor
@@ -171,7 +177,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         GsonRequest<PickupRequest> getRequest = new GsonRequest<PickupRequest>(Request.Method.POST, url, PickupRequest.class, null, new Response.Listener<PickupRequest>() {
             @Override
             public void onResponse(PickupRequest response) {
-                if (response != null && response.rideid != null)
+                if (response != null && response.rideid != null && !ignorelist.contains(response.rideid))
                 {
                    final PickupRequest pd =  response;
                     final Dialog dialog = new Dialog(getActivity());
@@ -199,6 +205,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         @Override
                         public void onClick(View v) {
                             dialog.dismiss();
+                            ignorelist.add(pd.rideid);
                         }
                     });
 
@@ -280,6 +287,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     }
 
     Marker mr;
+    LatLng oldloc = null, newloc = null;
     @Override
     public void onLocationChanged(Location location) {
 

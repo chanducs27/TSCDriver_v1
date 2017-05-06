@@ -26,6 +26,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import layout.EarningsTodayFragment;
 import layout.MapsFragment;
 
 public class DriverMainActivity extends AppCompatActivity {
@@ -49,7 +50,9 @@ public class DriverMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_main);
-       // getSupportActionBar().hide();
+
+        //getActionBar().hide();
+        getSupportActionBar().hide();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -58,11 +61,12 @@ public class DriverMainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mSectionsPagerAdapter.addFrag(new MapsFragment(), "HOME");
-        mSectionsPagerAdapter.addFrag(new Fragment(), "EARNINGS");
-        mSectionsPagerAdapter.addFrag(new Fragment(), "RATINGS");
-        mSectionsPagerAdapter.addFrag(new Fragment(), "ACCOUNT");
+        mSectionsPagerAdapter.addFrag(new EarningsTodayFragment(), "EARNINGS");
+        mSectionsPagerAdapter.addFrag(new DriverRatingFragment(), "RATINGS");
+        mSectionsPagerAdapter.addFrag(new AccountsFragment(), "ACCOUNT");
         mSectionsPagerAdapter.addFrag(new Fragment(), "ONLINE");
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(4);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -73,7 +77,23 @@ public class DriverMainActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.pickup_request);
         dialog.setTitle("Title...");
         dialog.show();*/
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
 
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                // When on page selected if position is not spesific for you
+                // you can find your fragment or you can switch position.
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
     }
 

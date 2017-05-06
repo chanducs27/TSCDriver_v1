@@ -1,6 +1,7 @@
 package com.fantasik.tscdriver.tscdriver;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -32,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.fantasik.tscdriver.tscdriver.Agent.DataParser;
 import com.fantasik.tscdriver.tscdriver.Agent.GsonRequest;
+import com.fantasik.tscdriver.tscdriver.Agent.LatLngInterpolator;
 import com.fantasik.tscdriver.tscdriver.Agent.PickupRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,6 +45,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.SphericalUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,18 +110,26 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         txtPickName.setText(uname);
     }
 
+    LatLng oldloc, newloc;
     @Override
     public void onLocationChanged(Location location) {
+
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
-        googleMap.addMarker(new MarkerOptions().position(latLng));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        currentlat = String.format("%.6f", latitude);
-        currentlng = String.format("%.6f", longitude);
+
+        if(newloc != null) {
+         oldloc = newloc;
+        }
+
+        newloc =latLng;
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(newloc));
+
+        currentlat = String.format("%.6f", newloc.latitude);
+        currentlng = String.format("%.6f", newloc.longitude);
 
         if (mr == null) {
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
             int height = 100;
             int width = 100;
             BitmapDrawable bitmapdraw = (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.car_top_view, null);
@@ -129,8 +141,60 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
                         .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
             }
         } else {
-            mr.setPosition(new LatLng(Double.parseDouble(currentlat), Double.parseDouble(currentlng)));
+            float rotation = (float) SphericalUtil.computeHeading(oldloc, newloc);
+            rotateMarker(mr, newloc, rotation);
+
+          //  mr.setPosition(new LatLng(Double.parseDouble(currentlat), Double.parseDouble(currentlng)));
         }
+    }
+
+
+    private void rotateMarker(final Marker marker, final LatLng destination, final float rotation) {
+
+        if (marker != null) {
+
+            final LatLng startPosition = marker.getPosition();
+            final float startRotation = marker.getRotation();
+
+            final LatLngInterpolator latLngInterpolator = new LatLngInterpolator.Spherical();
+            ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
+            valueAnimator.setDuration(3000); // duration 3 second
+            valueAnimator.setInterpolator(new LinearInterpolator());
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+
+                    try {
+                        float v = animation.getAnimatedFraction();
+                        LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, destination);
+                        float bearing = computeRotation(v, startRotation, rotation);
+
+                        marker.setRotation(bearing);
+                        marker.setPosition(newPosition);
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+            valueAnimator.start();
+        }
+    }
+    private static float computeRotation(float fraction, float start, float end) {
+        float normalizeEnd = end - start; // rotate start to 0
+        float normalizedEndAbs = (normalizeEnd + 360) % 360;
+
+        float direction = (normalizedEndAbs > 180) ? -1 : 1; // -1 = anticlockwise, 1 = clockwise
+        float rotation;
+        if (direction > 0) {
+            rotation = normalizedEndAbs;
+        } else {
+            rotation = normalizedEndAbs - 360;
+        }
+
+        float result = fraction * rotation + start;
+        return (result + 360) % 360;
     }
 
     @Override
