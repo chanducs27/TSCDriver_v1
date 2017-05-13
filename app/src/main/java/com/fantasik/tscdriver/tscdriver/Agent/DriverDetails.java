@@ -10,5 +10,10 @@ public class DriverDetails
     public String mobile;
     public String username;
     public String pass;
+    public String vehbrand;
+    public String vehplateno;
+    public String vehtypeid;
+    public String vehyear;
+    public String vehcolor;
 
 }

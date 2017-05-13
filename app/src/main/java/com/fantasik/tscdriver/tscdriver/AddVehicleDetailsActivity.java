@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,15 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.fantasik.tscdriver.tscdriver.Agent.DriverDetails;
-import com.fantasik.tscdriver.tscdriver.Agent.GsonPostRequest;
 import com.fantasik.tscdriver.tscdriver.Agent.GsonRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,15 +28,12 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.Base_URL;
 import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.MY_PREFS_NAME;
-
 
 
 public class AddVehicleDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -63,11 +55,13 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
     Button butNext;
     @BindView(R.id.activity_add_vehicle_details)
     RelativeLayout activityAddVehicleDetails;
+    @BindView(R.id.tcolor)
+    EditText tcolor;
     private RequestQueue mRequestQueue;
     private int progressStatus = 0;
     private Handler handler = new Handler();
     Gson gson;
-  String driverid="-1";
+    String driverid = "-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +72,6 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
 
         //  Button btnext = (Button) findViewById(R.id.butNext);
         butNext.setOnClickListener(this);
-
-        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString("vmodel", tmodel.getText().toString());
-        editor.putString("vbrand", tbrand.getText().toString());
-        editor.putString("vyear", syear.getSelectedItem().toString());
-        editor.commit();
-
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,34 +93,35 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
             pd.show();
 
 
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            String url = Base_URL + "/Driver/Register";
 
-           RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String url = "http://10.0.2.2:8076/Service1.svc/Driver/Register";
+            final SharedPreferences editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
-           final SharedPreferences editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-
-           final JSONObject GH =new JSONObject();
+            final JSONObject GH = new JSONObject();
             try {
-                GH.put("fname",editor.getString("fname", ""));
-                GH.put("lname",editor.getString("lname", ""));
-                GH.put("email",editor.getString("email", ""));
-                GH.put("phone",editor.getString("phone", ""));
-                GH.put("pass",editor.getString("passw", ""));
-
-
+                GH.put("fname", editor.getString("fname", ""));
+                GH.put("lname", editor.getString("lname", ""));
+                GH.put("email", editor.getString("email", ""));
+                GH.put("phone", editor.getString("phone", ""));
+                GH.put("pass", editor.getString("passw", ""));
+                GH.put("address", "");
+                GH.put("vehbrand", tbrand.getText());
+                GH.put("vehplateno", "");
+                GH.put("vehtypeid", editor.getString("vehtype", ""));
+                GH.put("vehyear", syear.getSelectedItem().toString());
+                GH.put("vehcolor", tcolor.getText());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-           GsonRequest<String> getRequest = new GsonRequest<String>(Request.Method.POST, url,String.class, null, new Response.Listener<String>() {
+            GsonRequest<String> getRequest = new GsonRequest<String>(Request.Method.POST, url, String.class, null, new Response.Listener<String>() {
                 @Override
-                public void onResponse(String response)
-                {
+                public void onResponse(String response) {
                     pd.dismiss();
-                    if(response != "-1") {
+                    if (response != "-1") {
                         driverid = response;
 
                         SharedPreferences.Editor editord = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                        editord.putString("userid", driverid);
                         editord.putString("username", editor.getString("email", ""));
                         editord.putString("pass", editor.getString("passw", ""));
 
@@ -144,10 +132,9 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     }
                 }
-            }, new com.android.volley.Response.ErrorListener() {
+            }, new Response.ErrorListener() {
                 @Override
-                public void onErrorResponse(VolleyError error)
-                {
+                public void onErrorResponse(VolleyError error) {
                     pd.dismiss();
                 }
             }, GH);

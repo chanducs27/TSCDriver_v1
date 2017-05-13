@@ -30,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.Base_URL;
 import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.MY_PREFS_NAME;
 
 public class LoginActivity extends AppCompatActivity {
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 pd.show();
 
                 RequestQueue requestQueue = Volley.newRequestQueue(this);
-                String url = "http://10.0.2.2:8076/Service1.svc/driverlogin";
+                String url = Base_URL + "/driverlogin";
                 final JSONObject GH =new JSONObject();
                 try {
                     GH.put("username",txtusername.getText());

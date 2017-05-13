@@ -66,6 +66,7 @@ import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.Base_URL;
 import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.MY_PREFS_NAME;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener {
@@ -116,7 +117,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             final SharedPreferences editorread = this.getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String url = "http://10.0.2.2:8076/Service1.svc/InsertDriverLocation";
+            String url = Base_URL + "/InsertDriverLocation";
             final JSONObject GH = new JSONObject();
             try {
                 GH.put("driverid", editorread.getString("driverid", ""));
@@ -166,7 +167,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         final SharedPreferences editorread = this.getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        String url = "http://10.0.2.2:8076/Service1.svc/GetPickupRequestforDriver";
+        String url = Base_URL + "/GetPickupRequestforDriver";
         final JSONObject GH = new JSONObject();
         try {
             GH.put("driverid", editorread.getString("driverid", ""));
@@ -229,7 +230,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         final SharedPreferences editorread = this.getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        String url = "http://10.0.2.2:8076/Service1.svc/AcceptPickupRequest";
+        String url = Base_URL + "/AcceptPickupRequest";
         final JSONObject GH = new JSONObject();
         try {
             GH.put("driverid", editorread.getString("driverid", ""));

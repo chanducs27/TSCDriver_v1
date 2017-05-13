@@ -64,6 +64,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.Base_URL;
 import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.MY_PREFS_NAME;
 
 
@@ -273,7 +274,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         final SharedPreferences editorread = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "http://10.0.2.2:8076/Service1.svc/StartRideCOnfirmFromDriver";
+        String url = Base_URL + "/StartRideCOnfirmFromDriver";
         final JSONObject GH = new JSONObject();
         try {
             GH.put("driverid", editorread.getString("driverid", ""));
@@ -303,7 +304,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         final SharedPreferences editorread = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "http://10.0.2.2:8076/Service1.svc/CompletedRideCOnfirmFromDriver";
+        String url = Base_URL + "/CompletedRideCOnfirmFromDriver";
         final JSONObject GH = new JSONObject();
         try {
             GH.put("driverid", editorread.getString("driverid", ""));

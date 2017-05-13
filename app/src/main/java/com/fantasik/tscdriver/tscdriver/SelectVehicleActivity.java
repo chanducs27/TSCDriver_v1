@@ -94,11 +94,11 @@ public class SelectVehicleActivity extends AppCompatActivity implements View.OnC
         if (v == btnnext) {
             SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
             if (showmicrodet) {
-                editor.putString("vehtype", "micro");
+                editor.putString("vehtype", "1");
             } else if (showminidet) {
-                editor.putString("vehtype", "mini");
+                editor.putString("vehtype", "2");
             } else {
-                editor.putString("vehtype", "none");
+                editor.putString("vehtype", "3");
             }
             editor.commit();
 
