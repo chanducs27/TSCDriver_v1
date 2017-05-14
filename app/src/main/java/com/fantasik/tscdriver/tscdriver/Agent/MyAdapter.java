@@ -37,6 +37,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter(TripHistory[] myDataset) {
         mDataset = myDataset;
+
+
     }
 
     // Create new views (invoked by the layout manager)

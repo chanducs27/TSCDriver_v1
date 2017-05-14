@@ -19,14 +19,16 @@
         android:layout_marginTop="170dp"
         android:elevation="2dp">
 
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/imgdriver"
             android:layout_width="65dp"
             android:layout_height="65dp"
+            android:src="@drawable/userphoto"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/userphoto" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/txtDriverName"
@@ -60,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/imgdriver"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -79,8 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Waybill"
-          />
+                    android:text="Waybill" />
             </LinearLayout>
 
             <LinearLayout
