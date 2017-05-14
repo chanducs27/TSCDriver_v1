@@ -76,7 +76,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     GoogleMap googleMap;
     String currentlat, currentlng, rideid;
     static List<String> ignorelist = new ArrayList<String>();
-
+    boolean isConfirmShow = false;
     public MapsFragment() {
         // Required empty public constructor
     }
@@ -179,13 +179,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             @Override
             public void onResponse(PickupRequest response) {
                 if (response != null && response.rideid != null && !ignorelist.contains(response.rideid))
-                {
-                   final PickupRequest pd =  response;
+                {if(!isConfirmShow) {
+                    isConfirmShow = true;
+                    final PickupRequest pd = response;
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.setContentView(R.layout.pickup_request);
 
-                  //  TextView text = (TextView) dialog.findViewById(R.id.text);
-                  //  text.setText("Android custom dialog example!");
+                    //  TextView text = (TextView) dialog.findViewById(R.id.text);
+                    //  text.setText("Android custom dialog example!");
 
                     TextView txtAccept = (TextView) dialog.findViewById(R.id.txtAccept);
                     // if button is clicked, close the custom dialog
@@ -193,6 +194,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         @Override
                         public void onClick(View v) {
                             rideid = pd.rideid;
+                            isConfirmShow = false;
                             dialog.dismiss();
                             AcceptPickupRequest(pd);
 
@@ -205,12 +207,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                     txtReject.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            isConfirmShow = false;
                             dialog.dismiss();
                             ignorelist.add(pd.rideid);
                         }
                     });
 
                     dialog.show();
+                }
                 }
             }
         }, new com.android.volley.Response.ErrorListener() {
@@ -252,6 +256,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                     intent.putExtra("startlng", pd.startlng);
                     intent.putExtra("endlat", pd.endlat);
                     intent.putExtra("endlng", pd.endlng);
+                    intent.putExtra("cost", pd.cost);
+                    intent.putExtra("paymentmode", pd.paymentmode);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 }

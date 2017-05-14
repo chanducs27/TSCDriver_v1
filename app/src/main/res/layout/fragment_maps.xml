@@ -156,7 +156,7 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/textView13"
+                        android:id="@+id/textuView13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -233,7 +233,7 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
-                                    android:id="@+id/imageView4"
+                                    android:id="@+id/imuageView4"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     app:srcCompat="@drawable/time" />
@@ -243,7 +243,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:layout_toRightOf="@+id/imageView4"
+                                    android:layout_toRightOf="@+id/imuageView4"
                                     android:text="8 hours Online"
                                     android:textColor="@color/cardview_dark_background" />
 

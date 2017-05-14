@@ -9,4 +9,6 @@ public class PickupRequest
     public String endlat;
     public String endlng;
     public UserDetails udetails;
+    public String paymentmode;
+    public String cost;
 }

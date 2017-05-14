@@ -52,7 +52,7 @@ public class DriverMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_driver_main);
 
         //getActionBar().hide();
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("Driver");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

@@ -109,6 +109,8 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         endlng = getIntent().getStringExtra("endlng");
 
         txtPickName.setText(uname);
+        txtPickCost.setText(getIntent().getStringExtra("cost"));
+        txtPickModeCash.setText(getIntent().getStringExtra("paymentmode"));
     }
 
     LatLng oldloc, newloc;
