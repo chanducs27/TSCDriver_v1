@@ -205,6 +205,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }, new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        switch(error.networkResponse.statusCode){
+                            case 400:
+                                String jsonError = new String(error.networkResponse.data);
+                                String hj = jsonError;
+                                break;
+                        }
                         pd.dismiss();
                         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                         editor.clear();

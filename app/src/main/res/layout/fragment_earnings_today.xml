@@ -35,7 +35,7 @@
                         android:text="24 $"
                         android:textAlignment="center"
                         android:textColor="@android:color/holo_green_light"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -68,7 +68,7 @@
                         android:text="4h 32m"
                         android:textAlignment="center"
                         android:textColor="@android:color/holo_blue_dark"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView

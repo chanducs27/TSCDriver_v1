@@ -21,7 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.fantasik.tscdriver.tscdriver.Agent.GsonRequest;
-import com.fantasik.tscdriver.tscdriver.Agent.MyAdapter;
+import com.fantasik.tscdriver.tscdriver.Agent.TripHistoryAdapter;
 import com.fantasik.tscdriver.tscdriver.Agent.TripHistory;
 import com.fantasik.tscdriver.tscdriver.R;
 
@@ -128,7 +128,7 @@ public class EarningsTodayFragment extends Fragment {
                     txtTime.setText(String.valueOf(totmins)+ " mins");
 
                     rv.setHasFixedSize(true);
-                    MyAdapter adapter = new MyAdapter(tfg);
+                    TripHistoryAdapter adapter = new TripHistoryAdapter(tfg);
                     rv.setAdapter(adapter);
 
                     LinearLayoutManager llm = new LinearLayoutManager(getActivity());

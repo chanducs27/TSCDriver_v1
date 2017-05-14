@@ -13,7 +13,7 @@ import com.fantasik.tscdriver.tscdriver.R;
  * Created by a on 02-May-17.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class TripHistoryAdapter extends RecyclerView.Adapter<TripHistoryAdapter.MyViewHolder> {
     private TripHistory[] mDataset;
 
     // Provide a reference to the views for each data item
@@ -35,7 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(TripHistory[] myDataset) {
+    public TripHistoryAdapter(TripHistory[] myDataset) {
         mDataset = myDataset;
 
 
@@ -43,11 +43,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public TripHistoryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                              int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cards_layout, parent, false);
+                .inflate(R.layout.triphistory_cards_layout, parent, false);
         // set the view's size, margins, paddings and layout parameters
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
