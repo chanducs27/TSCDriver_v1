@@ -5,6 +5,7 @@ import android.Manifest;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,10 +23,12 @@ import android.os.Bundle;
 import android.os.Handler;
 
 
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -368,7 +371,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public void onProviderDisabled(String s) {
 
     }
-
+    static AlertDialog alert;
     @Override
     public void onMapReady(GoogleMap gogleMap) {
         googleMap = gogleMap;
@@ -395,7 +398,36 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         if (location != null) {
             onLocationChanged(location);
         }
-        locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
+        locationManager.requestLocationUpdates(bestProvider, 5000, 0, this);
+
+        if(!locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            // show alert dialog if Internet is not connected
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setMessage(
+                    "Please activate location service GPS in location settings")
+                    .setTitle("Alert")
+                    .setCancelable(false)
+                    .setPositiveButton("Settings",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(
+                                            Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(intent);
+                                    alert.dismiss();
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    alert.dismiss();
+                                }
+                            });
+            alert = builder.create();
+            alert.show();
+        }
 
     }}
 

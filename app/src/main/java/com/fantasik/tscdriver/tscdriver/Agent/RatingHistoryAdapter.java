@@ -71,7 +71,7 @@ public class RatingHistoryAdapter extends RecyclerView.Adapter<RatingHistoryAdap
         holder.mTextname.setText(mDataset[position].uname);
         holder.mtime.setText(mDataset[position].time);
         holder.mComment.setText(mDataset[position].comment);
-
+        if(mDataset[position].uimage != null)
         holder.imgUser.setImageBitmap(BitmapFactory.decodeByteArray(mDataset[position].uimage, 0, mDataset[position].uimage.length));
         holder.ratRating.setRating(Float.parseFloat(mDataset[position].rate));
     }

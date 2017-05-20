@@ -239,7 +239,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
             if (location != null) {
                 onLocationChanged(location);
             }
-            locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
+            locationManager.requestLocationUpdates(bestProvider, 5000, 0, this);
         }
     }
 
