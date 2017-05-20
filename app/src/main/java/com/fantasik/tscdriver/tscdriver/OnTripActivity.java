@@ -2,21 +2,20 @@ package com.fantasik.tscdriver.tscdriver;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
-import android.app.Dialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -35,7 +34,6 @@ import com.android.volley.toolbox.Volley;
 import com.fantasik.tscdriver.tscdriver.Agent.DataParser;
 import com.fantasik.tscdriver.tscdriver.Agent.GsonRequest;
 import com.fantasik.tscdriver.tscdriver.Agent.LatLngInterpolator;
-import com.fantasik.tscdriver.tscdriver.Agent.PickupRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -59,6 +57,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,11 +86,13 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
     Button butStartTrip;
     @BindView(R.id.relRideDetails)
     RelativeLayout relRideDetails;
-    String currentlat, currentlng, endlat, endlng;
+    String currentlat, currentlng, endlat, endlng, startaddr, endaddr;
     Marker mr = null;
     Boolean isTripStarted = false;
+    @BindView(R.id.lclPickLocation)
+    TextView lclPickLocation;
 
-
+  Marker startmr, endmr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,12 +109,51 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         endlat = getIntent().getStringExtra("endlat");
         endlng = getIntent().getStringExtra("endlng");
 
+        startaddr = GetAddressfromLocation(Double.parseDouble(startlat), Double.parseDouble(startlng));
+        endaddr = GetAddressfromLocation(Double.parseDouble(endlat), Double.parseDouble(endlng));
+
+        txtPickupAddr.setText(startaddr);
+        lclPickLocation.setText("PICKUP LOCATION");
+
         txtPickName.setText(uname);
         txtPickCost.setText(getIntent().getStringExtra("cost"));
         txtPickModeCash.setText(getIntent().getStringExtra("paymentmode"));
     }
 
+    private String GetAddressfromLocation(double latitude, double longitude) {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = "";
+            address += addresses.get(0).getAddressLine(0);
+            if (addresses.get(0).getMaxAddressLineIndex() > 1) {
+                for (int i = 0; i <= 1; i++) {
+                    address += addresses.get(0).getAddressLine(i) + " ";
+                }
+            }
+
+            //  String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String country = addresses.get(0).getCountryName();
+            String postalCode = addresses.get(0).getPostalCode();
+            String knownName = addresses.get(0).getFeatureName();
+
+            if (!address.equals(""))
+                return address;
+            else
+                return city + "," + state;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     LatLng oldloc, newloc;
+
     @Override
     public void onLocationChanged(Location location) {
 
@@ -121,11 +161,11 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         double longitude = location.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
 
-        if(newloc != null) {
-         oldloc = newloc;
+        if (newloc != null) {
+            oldloc = newloc;
         }
 
-        newloc =latLng;
+        newloc = latLng;
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(newloc));
 
         currentlat = String.format("%.6f", newloc.latitude);
@@ -147,7 +187,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
             float rotation = (float) SphericalUtil.computeHeading(oldloc, newloc);
             rotateMarker(mr, newloc, rotation);
 
-          //  mr.setPosition(new LatLng(Double.parseDouble(currentlat), Double.parseDouble(currentlng)));
+            //  mr.setPosition(new LatLng(Double.parseDouble(currentlat), Double.parseDouble(currentlng)));
         }
     }
 
@@ -175,8 +215,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
                         marker.setRotation(bearing);
                         marker.setPosition(newPosition);
 
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -184,6 +223,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
             valueAnimator.start();
         }
     }
+
     private static float computeRotation(float fraction, float start, float end) {
         float normalizeEnd = end - start; // rotate start to 0
         float normalizedEndAbs = (normalizeEnd + 360) % 360;
@@ -240,6 +280,18 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
                 onLocationChanged(location);
             }
             locationManager.requestLocationUpdates(bestProvider, 5000, 0, this);
+
+
+            int height = 100;
+            int width = 100;
+            BitmapDrawable bitmapdraw = (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.map_marker, null);
+            if (bitmapdraw != null) {
+                Bitmap b = bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                startmr = googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(Double.parseDouble(startlat), Double.parseDouble(startlng)))
+                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+            }
         }
     }
 
@@ -247,32 +299,41 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.butStartTrip:
-                if(!isTripStarted) {
+                if (!isTripStarted) {
                     String url = getUrl(new LatLng(Double.parseDouble(startlat), Double.parseDouble(startlng)), new LatLng(Double.parseDouble(endlat), Double.parseDouble(endlng)));
                     FetchUrl FetchUrl = new FetchUrl();
                     FetchUrl.execute(url);
 
-
-                    googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(startlat), Double.parseDouble(startlng))));
-                    googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(endlat), Double.parseDouble(endlng))));
                     //move map camera
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(startlat), Double.parseDouble(startlng))));
                     googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
                     butStartTrip.setText("COMPLETED TRIP");
+
+                    txtPickupAddr.setText(endaddr);
+                    lclPickLocation.setText("DROP LOCATION");
+
+                    int height = 100;
+                    int width = 100;
+                    BitmapDrawable bitmapdraw = (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.map_marker, null);
+                    if (bitmapdraw != null) {
+                        Bitmap b = bitmapdraw.getBitmap();
+                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                        endmr = googleMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(Double.parseDouble(endlat), Double.parseDouble(endlng)))
+                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+                    }
+
                     isTripStarted = true;
                     startRideconfirm();
-                }
-                else
-                {
+                } else {
                     completedRideconfirm();
                 }
                 break;
         }
     }
 
-    private void startRideconfirm()
-    {
+    private void startRideconfirm() {
         final SharedPreferences editorread = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -290,7 +351,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
             public void onResponse(String response) {
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
@@ -301,8 +362,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         requestQueue.add(getRequest);
     }
 
-    private void completedRideconfirm()
-    {
+    private void completedRideconfirm() {
         final SharedPreferences editorread = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -320,7 +380,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
             public void onResponse(String response) {
 
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 

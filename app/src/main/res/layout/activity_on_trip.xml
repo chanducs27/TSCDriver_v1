@@ -21,16 +21,8 @@
         android:gravity="center_vertical"
         android:id="@+id/relativeLayout">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/seach" />
-
         <TableLayout
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_toRightOf="@+id/imageView3">
 
@@ -40,11 +32,22 @@
                 android:layout_weight="1"
                 android:gravity="center">
 
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PICKUP LOCATION" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/lclPickLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="PICKUP LOCATION"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/holo_orange_dark" />
+                </LinearLayout>
+
             </TableRow>
 
             <TableRow
@@ -52,12 +55,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/txtPickupAddr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Address" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtPickupAddr"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="Address"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
             </TableRow>
 
         </TableLayout>
@@ -138,6 +153,7 @@
                                     android:id="@+id/txtPickName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
                                     android:layout_margin="10dp"
                                     android:text="Jessics Fox"
                                     android:textColor="@color/cardview_dark_background" />
@@ -167,6 +183,7 @@
                                     android:id="@+id/imageView4"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
+                                    android:layout_alignParentLeft="true"
                                     app:srcCompat="@drawable/time" />
 
                                 <TextView
