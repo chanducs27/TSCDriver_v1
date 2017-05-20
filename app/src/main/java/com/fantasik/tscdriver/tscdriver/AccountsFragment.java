@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +105,8 @@ public class AccountsFragment extends Fragment {
                 pd.dismiss();
                 if (response != null) {
                     if (response.imgdriver != null) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(response.imgdriver, 0, response.imgdriver.length);
+                        byte[] img = Base64.decode(response.imgdriver,  Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
                         imgdriver.setImageBitmap(bitmap);
                     }
                     txtDriverName.setText(response.name);

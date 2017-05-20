@@ -7,6 +7,7 @@ package com.fantasik.tscdriver.tscdriver.Agent;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,8 +72,10 @@ public class RatingHistoryAdapter extends RecyclerView.Adapter<RatingHistoryAdap
         holder.mTextname.setText(mDataset[position].uname);
         holder.mtime.setText(mDataset[position].time);
         holder.mComment.setText(mDataset[position].comment);
-        if(mDataset[position].uimage != null)
-        holder.imgUser.setImageBitmap(BitmapFactory.decodeByteArray(mDataset[position].uimage, 0, mDataset[position].uimage.length));
+        if(mDataset[position].uimage != null) {
+            byte[] img = Base64.decode(mDataset[position].uimage ,  Base64.DEFAULT);
+            holder.imgUser.setImageBitmap(BitmapFactory.decodeByteArray(img, 0, img.length));
+        }
         holder.ratRating.setRating(Float.parseFloat(mDataset[position].rate));
     }
 

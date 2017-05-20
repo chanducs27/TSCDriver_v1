@@ -8,7 +8,7 @@ import java.net.PortUnreachableException;
 
 public class TripHistory {
     public String uname;
-    public byte[] uimage;
+    public String uimage;
     public String paymentmode;
     public String cost;
     public String rideid;
