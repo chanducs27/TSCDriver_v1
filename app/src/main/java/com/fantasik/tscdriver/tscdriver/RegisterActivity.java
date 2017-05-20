@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (v == btnext) {
 
             if (isValidText()) {
-                Intent myIntent = new Intent(RegisterActivity.this, SelectVehicleActivity.class);
+
 
                 SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
 
@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 editor.putString("phone", tphone.getText().toString());
                 editor.putString("passw", tPass.getText().toString());
                 editor.apply();
-
+                Intent myIntent = new Intent(RegisterActivity.this, ProfilePictureActivity.class);
                 this.startActivity(myIntent);
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
