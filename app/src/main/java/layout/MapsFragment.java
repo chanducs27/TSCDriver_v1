@@ -3,6 +3,7 @@ package layout;
 
 import android.Manifest;
 
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -41,6 +43,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.fantasik.tscdriver.tscdriver.Agent.GsonRequest;
+import com.fantasik.tscdriver.tscdriver.Agent.LatLngInterpolator;
 import com.fantasik.tscdriver.tscdriver.Agent.PickupRequest;
 import com.fantasik.tscdriver.tscdriver.Agent.UserDetails;
 import com.fantasik.tscdriver.tscdriver.DriverMainActivity;
@@ -55,6 +58,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.SphericalUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -300,15 +304,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     LatLng oldloc = null, newloc = null;
     @Override
     public void onLocationChanged(Location location) {
+        if (newloc != null) {
+            oldloc = newloc;
+        }
+        newloc = new LatLng(location.getLatitude(), location.getLongitude());
 
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
-        googleMap.addMarker(new MarkerOptions().position(latLng));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        currentlat = String.format("%.6f", latitude);
-        currentlng = String.format("%.6f", longitude);
+        currentlat = String.format("%.6f", newloc.latitude);
+        currentlng = String.format("%.6f", newloc.longitude);
 
         if (mr == null) {
             int height = 100;
@@ -318,12 +325,61 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 Bitmap b = bitmapdraw.getBitmap();
                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                 mr = googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(currentlat), Double.parseDouble(currentlng)))
+                        .position(new LatLng(newloc.latitude, newloc.longitude))
                         .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
             }
         } else {
-            mr.setPosition(new LatLng(Double.parseDouble(currentlat), Double.parseDouble(currentlng)));
+            float rotation = (float) SphericalUtil.computeHeading(oldloc, newloc);
+            rotateMarker(mr, newloc, rotation);
         }
+    }
+
+    private void rotateMarker(final Marker marker, final LatLng destination, final float rotation) {
+
+        if (marker != null) {
+
+            final LatLng startPosition = marker.getPosition();
+            final float startRotation = marker.getRotation();
+
+            final LatLngInterpolator latLngInterpolator = new LatLngInterpolator.Spherical();
+            ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
+            valueAnimator.setDuration(3000); // duration 3 second
+            valueAnimator.setInterpolator(new LinearInterpolator());
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+
+                    try {
+                        float v = animation.getAnimatedFraction();
+                        LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, destination);
+                        float bearing = computeRotation(v, startRotation, rotation);
+
+                        marker.setRotation(bearing);
+                        marker.setPosition(newPosition);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            valueAnimator.start();
+        }
+    }
+
+    private static float computeRotation(float fraction, float start, float end) {
+        float normalizeEnd = end - start; // rotate start to 0
+        float normalizedEndAbs = (normalizeEnd + 360) % 360;
+
+        float direction = (normalizedEndAbs > 180) ? -1 : 1; // -1 = anticlockwise, 1 = clockwise
+        float rotation;
+        if (direction > 0) {
+            rotation = normalizedEndAbs;
+        } else {
+            rotation = normalizedEndAbs - 360;
+        }
+
+        float result = fraction * rotation + start;
+        return (result + 360) % 360;
     }
 
     private String GetAddressfromLocation(double latitude, double longitude) {
