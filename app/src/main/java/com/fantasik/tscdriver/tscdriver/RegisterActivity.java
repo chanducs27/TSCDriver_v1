@@ -62,19 +62,42 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == btnext) {
-            Intent myIntent = new Intent(RegisterActivity.this, SelectVehicleActivity.class);
 
-            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            if (isValidText()) {
+                Intent myIntent = new Intent(RegisterActivity.this, SelectVehicleActivity.class);
 
-            editor.putString("fname", tFname.getText().toString());
-            editor.putString("lname", tLname.getText().toString());
-            editor.putString("email", tEmail.getText().toString());
-            editor.putString("phone", tphone.getText().toString());
-            editor.putString("passw", tPass.getText().toString());
-            editor.apply();
+                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
 
-            this.startActivity(myIntent);
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                editor.putString("fname", tFname.getText().toString());
+                editor.putString("lname", tLname.getText().toString());
+                editor.putString("email", tEmail.getText().toString());
+                editor.putString("phone", tphone.getText().toString());
+                editor.putString("passw", tPass.getText().toString());
+                editor.apply();
+
+                this.startActivity(myIntent);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+            }
         }
+    }
+
+    private boolean isValidText() {
+        if(tFname.getText().toString().trim().equals("")) {
+            tFname.setError("This shouldn't be empty");
+            return  false;
+        }
+        if(tEmail.getText().toString().trim().equals("")) {
+            tEmail.setError("This shouldn't be empty");
+            return  false;
+        }
+        if(tPass.getText().toString().trim().equals("")) {
+            tPass.setError("This shouldn't be empty");
+            return  false;
+        }
+        if(tphone.getText().toString().trim().equals("")) {
+            tphone.setError("This shouldn't be empty");
+            return  false;
+        }
+        return true;
     }
 }

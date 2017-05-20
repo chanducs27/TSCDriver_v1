@@ -103,9 +103,10 @@ public class AccountsFragment extends Fragment {
             public void onResponse(DriverDetails response) {
                 pd.dismiss();
                 if (response != null) {
-
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(response.imgdriver, 0, response.imgdriver.length);
-                    imgdriver.setImageBitmap(bitmap);
+                    if (response.imgdriver != null) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(response.imgdriver, 0, response.imgdriver.length);
+                        imgdriver.setImageBitmap(bitmap);
+                    }
                     txtDriverName.setText(response.name);
                 }
             }

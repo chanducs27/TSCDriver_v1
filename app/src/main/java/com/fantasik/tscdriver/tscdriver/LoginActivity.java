@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.fantasik.tscdriver.tscdriver.Agent.DriverDetails;
 import com.fantasik.tscdriver.tscdriver.Agent.GsonRequest;
 import com.fantasik.tscdriver.tscdriver.Agent.SPreferences;
+import com.fantasik.tscdriver.tscdriver.Agent.SessionManager;
 import com.fantasik.tscdriver.tscdriver.Agent.UserDetails;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -60,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         ButterKnife.bind(this);
         SPreferences.ClearPreferences(this);
 
+        session = new SessionManager(getApplicationContext());
+
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -77,7 +82,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -113,14 +120,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 e.printStackTrace();
             }
 
-            GsonRequest<DriverDetails> getRequest = new GsonRequest<DriverDetails>(Request.Method.POST, url,DriverDetails.class, null, new Response.Listener<DriverDetails>() {
+            GsonRequest<DriverDetails> getRequest = new GsonRequest<>(Request.Method.POST, url, DriverDetails.class, null, new Response.Listener<DriverDetails>() {
                 @Override
-                public void onResponse(DriverDetails response)
-                {
+                public void onResponse(DriverDetails response) {
                     pd.dismiss();
-                    if(response != null) {
+                    if (response != null) {
                         DriverDetails dd = response;
-
 
                         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                         editor.putString("driverid", dd.driverid);
@@ -130,6 +135,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         editor.putString("pass", String.valueOf(tPass.getText()));
 
                         editor.apply();
+
+                        session.createLoginSession(dd.driverid, dd.username);
 
                         Intent intent = new Intent(LoginActivity.this, DriverMainActivity.class);
                         startActivity(intent);
@@ -150,6 +157,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             requestQueue.add(getRequest);
         }
     }
+
     @OnClick({R.id.glogin, R.id.flogin, R.id.butNext})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -179,14 +187,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     e.printStackTrace();
                 }
 
-                GsonRequest<DriverDetails> getRequest = new GsonRequest<DriverDetails>(Request.Method.POST, url,DriverDetails.class, null, new Response.Listener<DriverDetails>() {
+                GsonRequest<DriverDetails> getRequest = new GsonRequest<>(Request.Method.POST, url, DriverDetails.class, null, new Response.Listener<DriverDetails>() {
                     @Override
-                    public void onResponse(DriverDetails response)
-                    {
+                    public void onResponse(DriverDetails response) {
                         pd.dismiss();
-                        if(response != null) {
+                        if (response != null) {
                             DriverDetails dd = response;
-
 
                             SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                             editor.putString("driverid", dd.driverid);
@@ -205,10 +211,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }, new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        switch(error.networkResponse.statusCode){
+                        switch (error.networkResponse.statusCode) {
                             case 400:
                                 String jsonError = new String(error.networkResponse.data);
-                                String hj = jsonError;
                                 break;
                         }
                         pd.dismiss();

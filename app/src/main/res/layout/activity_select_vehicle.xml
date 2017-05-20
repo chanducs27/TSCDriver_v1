@@ -76,12 +76,12 @@
                             android:layout_weight=".7" />
 
                         <ImageView
+                            android:id="@+id/imgmicrook"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ok"
-                            android:id="@+id/imgmicrook"
-                            android:layout_weight="1"
-                            android:visibility="gone" />
+                            android:layout_weight=".3"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ok" />
 
                     </LinearLayout>
 
@@ -159,12 +159,12 @@
                             android:layout_weight=".7" />
 
                         <ImageView
+                            android:id="@+id/imgminiok"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ok"
-                            android:id="@+id/imgminiok"
-                            android:layout_weight="1"
-                            android:visibility="gone" />
+                            android:layout_weight=".3"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/ok" />
 
                     </LinearLayout>
 
