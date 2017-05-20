@@ -111,6 +111,8 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 GH.put("vehtypeid", editor.getString("vehtype", ""));
                 GH.put("vehyear", syear.getSelectedItem().toString());
                 GH.put("vehcolor", tcolor.getText());
+                GH.put("filenamewithext", "");
+                GH.put("profilebytes", editor.getString("profileimage", ""));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
