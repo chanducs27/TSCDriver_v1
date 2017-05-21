@@ -130,6 +130,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
             String address = "";
             address += addresses.get(0).getAddressLine(0);
             if (addresses.get(0).getMaxAddressLineIndex() > 1) {
+                address="";
                 for (int i = 0; i <= 1; i++) {
                     address += addresses.get(0).getAddressLine(i) + " ";
                 }
@@ -274,6 +275,7 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
 
             LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
             Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
             String bestProvider = locationManager.getBestProvider(criteria, true);
             Location location = locationManager.getLastKnownLocation(bestProvider);
             if (location != null) {

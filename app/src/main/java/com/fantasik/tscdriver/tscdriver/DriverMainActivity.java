@@ -1,12 +1,17 @@
 package com.fantasik.tscdriver.tscdriver;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -45,7 +50,7 @@ public class DriverMainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    static AlertDialog alert;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,31 @@ public class DriverMainActivity extends AppCompatActivity {
 
         //getActionBar().hide();
         getSupportActionBar().setTitle("Driver");
+
+
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if(!locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            // show alert dialog if Internet is not connected
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage(
+                    "Please activate location service GPS in location settings")
+                    .setTitle("Alert")
+                    .setCancelable(false)
+                    .setPositiveButton("Settings",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(
+                                            Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(intent);
+                                    alert.dismiss();
+                                }
+                            });
+            alert = builder.create();
+            alert.show();
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
