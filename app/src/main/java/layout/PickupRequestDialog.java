@@ -28,6 +28,9 @@ public class PickupRequestDialog extends DialogFragment implements OnMapReadyCal
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "startlat";
     private static final String ARG_PARAM2 = "startlng";
+    private static final String ARG_PARAM3= "cost";
+    private static final String ARG_PARAM4= "distance";
+    private static final String ARG_PARAM5 = "addr";
     OnTimePickedListener mCallback;
 
     @BindView(R.id.txtEstimatedTime)
@@ -83,8 +86,8 @@ public class PickupRequestDialog extends DialogFragment implements OnMapReadyCal
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(Double.parseDouble(mParam1), Double.parseDouble(mParam2))));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(mParam1), Double.parseDouble(mParam2))));
+                .position(new LatLng(Double.parseDouble(getArguments().getString(ARG_PARAM1)), Double.parseDouble(getArguments().getString(ARG_PARAM2)))));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(getArguments().getString(ARG_PARAM1)), Double.parseDouble(getArguments().getString(ARG_PARAM2)))));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
@@ -98,11 +101,15 @@ public class PickupRequestDialog extends DialogFragment implements OnMapReadyCal
 
 
     // TODO: Rename and change types and number of parameters
-    public static PickupRequestDialog newInstance(String startlat, String startlng) {
+    public static PickupRequestDialog newInstance(String startlat, String startlng, String cost, String distance, String addr) {
         PickupRequestDialog fragment = new PickupRequestDialog();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, startlat);
         args.putString(ARG_PARAM2, startlng);
+        args.putString(ARG_PARAM3, cost);
+        args.putString(ARG_PARAM4, distance);
+        args.putString(ARG_PARAM5, addr);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -111,10 +118,7 @@ public class PickupRequestDialog extends DialogFragment implements OnMapReadyCal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
         try {
             mCallback = (OnTimePickedListener) getTargetFragment();
         } catch (ClassCastException e) {
@@ -128,6 +132,12 @@ public class PickupRequestDialog extends DialogFragment implements OnMapReadyCal
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            txtEstimateEarn.setText(getArguments().getString(ARG_PARAM3));
+            txtPickupAddress.setText(getArguments().getString(ARG_PARAM5));
+        }
+
         if (Build.VERSION.SDK_INT < 21) {
             supportMapFragment = (SupportMapFragment) getActivity()
                     .getSupportFragmentManager().findFragmentById(R.id.map_pickup);
