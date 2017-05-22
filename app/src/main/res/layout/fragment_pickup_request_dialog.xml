@@ -168,11 +168,11 @@
                     android:layout_above="@+id/txtAccept"
                     android:layout_marginBottom="5dp">
 
-                    <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/mapView"
+                    <fragment
+                        android:id="@+id/map_pickup"
+                        class="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_height="match_parent" />
                 </RelativeLayout>
 
                 <TextView

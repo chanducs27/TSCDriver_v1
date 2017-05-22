@@ -1,23 +1,29 @@
 package layout;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fantasik.tscdriver.tscdriver.R;
-import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class PickupRequestDialog extends DialogFragment {
+public class PickupRequestDialog extends DialogFragment implements OnMapReadyCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "startlat";
@@ -30,13 +36,13 @@ public class PickupRequestDialog extends DialogFragment {
     TextView txtEstimateEarn;
     @BindView(R.id.txtPickupAddress)
     TextView txtPickupAddress;
-    @BindView(R.id.mapView)
-    MapView mapView;
+
     @BindView(R.id.txtAccept)
     TextView txtAccept;
     @BindView(R.id.txtReject)
     TextView txtReject;
     Unbinder unbinder;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -57,20 +63,29 @@ public class PickupRequestDialog extends DialogFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txtAccept:
-                if(mCallback != null)
-                {
+                if (mCallback != null) {
                     mCallback.onTimePicked(true);
                 }
                 dismiss();
                 break;
             case R.id.txtReject:
-                if(mCallback != null)
-                {
+                if (mCallback != null) {
                     mCallback.onTimePicked(false);
                 }
                 dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.getUiSettings().setZoomControlsEnabled(false);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(Double.parseDouble(mParam1), Double.parseDouble(mParam2))));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(mParam1), Double.parseDouble(mParam2))));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     /**
@@ -106,6 +121,21 @@ public class PickupRequestDialog extends DialogFragment {
             throw new ClassCastException(getTargetFragment().toString() + " must implement OnTimePickedListener.");
         }
 
+
+    }
+
+    SupportMapFragment supportMapFragment;
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (Build.VERSION.SDK_INT < 21) {
+            supportMapFragment = (SupportMapFragment) getActivity()
+                    .getSupportFragmentManager().findFragmentById(R.id.map_pickup);
+        } else {
+            supportMapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
+                    .findFragmentById(R.id.map_pickup);
+        }
+        supportMapFragment.getMapAsync(this);
     }
 
     @Override
