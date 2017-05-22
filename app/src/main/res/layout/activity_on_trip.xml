@@ -23,8 +23,7 @@
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@+id/imageView3">
+            android:layout_height="40dp">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -70,6 +69,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="Address"
+                        android:textAlignment="center"
                         android:textSize="12sp" />
                 </LinearLayout>
 

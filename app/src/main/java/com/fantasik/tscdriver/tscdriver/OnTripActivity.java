@@ -2,6 +2,7 @@ package com.fantasik.tscdriver.tscdriver;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -98,7 +100,8 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_trip);
         ButterKnife.bind(this);
-
+        setTitle("On Trip");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         fragment.getMapAsync(this);
 
@@ -119,6 +122,18 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         txtPickCost.setText(getIntent().getStringExtra("cost"));
         txtPickModeCash.setText(getIntent().getStringExtra("paymentmode"));
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return(super.onOptionsItemSelected(item));
+    }
+
 
     private String GetAddressfromLocation(double latitude, double longitude) {
         Geocoder geocoder;
@@ -315,8 +330,8 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
                     txtPickupAddr.setText(endaddr);
                     lclPickLocation.setText("DROP LOCATION");
 
-                    int height = 100;
-                    int width = 100;
+                    int height = 80;
+                    int width = 40;
                     BitmapDrawable bitmapdraw = (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.map_marker, null);
                     if (bitmapdraw != null) {
                         Bitmap b = bitmapdraw.getBitmap();
@@ -380,6 +395,18 @@ public class OnTripActivity extends AppCompatActivity implements OnMapReadyCallb
         GsonRequest<String> getRequest = new GsonRequest<String>(Request.Method.POST, url, String.class, null, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                Intent intent = new Intent(OnTripActivity.this, CollectCashActivity.class);
+                intent.putExtra("uname",  getIntent().getStringExtra("uname"));
+                intent.putExtra("rideid", getIntent().getStringExtra("rideid"));
+
+                intent.putExtra("startaddr", startaddr);
+                intent.putExtra("endaddr", endaddr);
+                intent.putExtra("cost",getIntent().getStringExtra("cost"));
+                intent.putExtra("paymentmode", getIntent().getStringExtra("paymentmode"));
+                intent.putExtra("distance", getIntent().getStringExtra("distance"));
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
             }
         }, new Response.ErrorListener() {

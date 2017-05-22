@@ -28,6 +28,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.fantasik.tscdriver.tscdriver.Agent.SessionManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +53,7 @@ public class DriverMainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     static AlertDialog alert;
+    SessionManager sd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,7 @@ public class DriverMainActivity extends AppCompatActivity {
         //getActionBar().hide();
         getSupportActionBar().setTitle("Driver");
 
-
+sd = new SessionManager(getApplicationContext());
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if(!locationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER))
@@ -187,8 +190,11 @@ public class DriverMainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+        sd.logoutDriver();
+            Intent intent = new Intent(this,WelcomeActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
 
         return super.onOptionsItemSelected(item);

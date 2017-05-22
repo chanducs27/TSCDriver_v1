@@ -3,6 +3,7 @@ package com.fantasik.tscdriver.tscdriver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -39,6 +40,16 @@ public class UploadDocumentsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return(super.onOptionsItemSelected(item));
     }
 
     @OnClick({R.id.microcard, R.id.microcard2, R.id.microcard3, R.id.microcard4})

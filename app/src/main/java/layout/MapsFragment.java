@@ -28,6 +28,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -52,6 +53,8 @@ import com.fantasik.tscdriver.tscdriver.OnTripActivity;
 import com.fantasik.tscdriver.tscdriver.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -76,7 +79,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.Base_URL;
 import static com.fantasik.tscdriver.tscdriver.Agent.AgentMnager.MY_PREFS_NAME;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener, PickupRequestDialog.OnTimePickedListener {
 
     Handler handlerDriverLocation;
     Handler handlerPickUpReuest;
@@ -169,7 +172,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
         }, FIVE_SECONDS);
     }
-
+    PickupRequest pd;
     private void ChcekPickupRequest() {
         final SharedPreferences editorread = this.getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
@@ -188,39 +191,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 if (response != null && response.rideid != null && !ignorelist.contains(response.rideid))
                 {if(!isConfirmShow) {
                     isConfirmShow = true;
-                    final PickupRequest pd = response;
-                    final Dialog dialog = new Dialog(getActivity());
-                    dialog.setContentView(R.layout.pickup_request);
+                    pd = response;
 
-                    //  TextView text = (TextView) dialog.findViewById(R.id.text);
-                    //  text.setText("Android custom dialog example!");
+                    PickupRequestDialog dialogFragment = PickupRequestDialog.newInstance(pd.startlat,pd.startlng);
+                    dialogFragment.setTargetFragment(MapsFragment.this, 0);
+                    dialogFragment.show(getFragmentManager(), "Sample Fragment");
 
-                    TextView txtAccept = (TextView) dialog.findViewById(R.id.txtAccept);
-                    // if button is clicked, close the custom dialog
-                    txtAccept.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            rideid = pd.rideid;
-                            isConfirmShow = false;
-                            dialog.dismiss();
-                            AcceptPickupRequest(pd);
-
-                        }
-                    });
-
-
-                    TextView txtReject = (TextView) dialog.findViewById(R.id.txtReject);
-                    // if button is clicked, close the custom dialog
-                    txtReject.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            isConfirmShow = false;
-                            dialog.dismiss();
-                            ignorelist.add(pd.rideid);
-                        }
-                    });
-
-                    dialog.show();
                 }
                 }
             }
@@ -233,6 +209,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
         getRequest.setShouldCache(false);
         requestQueue.add(getRequest);
+    }
+
+    @Override
+    public void onTimePicked(boolean isaccepted) {
+        if (isaccepted) {
+            rideid = pd.rideid;
+            isConfirmShow = false;
+            AcceptPickupRequest(pd);
+        } else {
+            isConfirmShow = false;
+            ignorelist.add(pd.rideid);
+        }
     }
 
     private void AcceptPickupRequest(PickupRequest pdfi) {
@@ -265,6 +253,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                     intent.putExtra("endlng", pd.endlng);
                     intent.putExtra("cost", pd.cost);
                     intent.putExtra("paymentmode", pd.paymentmode);
+                    intent.putExtra("paymentmode", pd.distance);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 }
@@ -460,6 +449,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
 
     }}
+
 
 
 }

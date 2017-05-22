@@ -11,4 +11,5 @@ public class PickupRequest
     public UserDetails udetails;
     public String paymentmode;
     public String cost;
+    public String distance;
 }
