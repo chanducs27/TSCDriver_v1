@@ -70,11 +70,18 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/TscCab" />
-        <activity android:name=".UploadDocumentsActivity"  android:theme="@style/TscCab"  />
+        <activity
+            android:name=".UploadDocumentsActivity"
+            android:theme="@style/TscCab" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".ProfilePictureActivity" android:theme="@style/TscCab" ></activity>
+        <activity
+            android:name=".ProfilePictureActivity"
+            android:theme="@style/TscCab" />
+        <activity android:name=".SettingsActivity"   android:theme="@style/TscCab" />
+        <activity android:name=".AboutActivity"  android:theme="@style/TscCab"  />
+        <activity android:name=".HelpActivity"  android:theme="@style/TscCab" ></activity>
     </application>
 
 </manifest>

@@ -108,6 +108,9 @@ public class AccountsFragment extends Fragment {
                     }
                     case MotionEvent.ACTION_UP: {
                         lnrabout.setBackgroundColor(Color.WHITE);
+                        Intent intent = new Intent(getActivity(),AboutActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
                         break;
                     }
@@ -126,7 +129,9 @@ public class AccountsFragment extends Fragment {
                     }
                     case MotionEvent.ACTION_UP: {
                         lnrhelp.setBackgroundColor(Color.WHITE);
-
+                        Intent intent = new Intent(getActivity(),HelpActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                         break;
                     }
                 }
