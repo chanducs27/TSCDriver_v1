@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -74,6 +75,82 @@ public class AccountsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         GetDriverInfo();
+        Assigntouchlisteners();
+    }
+
+    private void Assigntouchlisteners() {
+        lnrsettings.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int eid = motionEvent.getAction();
+                switch (eid) {
+                    case MotionEvent.ACTION_DOWN: {
+                        lnrsettings.setBackgroundColor(Color.GRAY);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        lnrsettings.setBackgroundColor(Color.WHITE);
+
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+        lnrabout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int eid = motionEvent.getAction();
+                switch (eid) {
+                    case MotionEvent.ACTION_DOWN: {
+                        lnrabout.setBackgroundColor(Color.GRAY);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        lnrabout.setBackgroundColor(Color.WHITE);
+
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+        lnrhelp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int eid = motionEvent.getAction();
+                switch (eid) {
+                    case MotionEvent.ACTION_DOWN: {
+                        lnrhelp.setBackgroundColor(Color.GRAY);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        lnrhelp.setBackgroundColor(Color.WHITE);
+
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+        lnrlogout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int eid = motionEvent.getAction();
+                switch (eid) {
+                    case MotionEvent.ACTION_DOWN: {
+                        lnrlogout.setBackgroundColor(Color.GRAY);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        lnrlogout.setBackgroundColor(Color.WHITE);
+
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     private void GetDriverInfo() {

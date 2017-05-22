@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -153,11 +154,16 @@ SessionManager session;
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     }
+                    else
+                    {
+                        Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
+                    }
                 }
             }, new com.android.volley.Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     pd.dismiss();
+                    Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
                     SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                     editor.clear();
                     editor.apply();
@@ -217,6 +223,9 @@ SessionManager session;
                             Intent intent = new Intent(LoginActivity.this, DriverMainActivity.class);
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                        }      else
+                        {
+                            Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new com.android.volley.Response.ErrorListener() {
@@ -227,7 +236,7 @@ SessionManager session;
                                 String jsonError = new String(error.networkResponse.data);
                                 break;
                         }
-                        pd.dismiss();
+                        pd.dismiss();  Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
                         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                         editor.clear();
                         editor.apply();

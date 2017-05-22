@@ -63,7 +63,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         pd.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = Base_URL + "/GetUserDetailsById";
+        String url = Base_URL + "/GetDriverDetailsById";
         final JSONObject GH =new JSONObject();
         try {
             GH.put("driverid",session.getDriverDetails().get(SessionManager.KEY_ID));

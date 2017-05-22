@@ -132,7 +132,7 @@ public class ProfilePictureActivity extends AppCompatActivity {
 
       //  String saveThis = Base64.encodeToString(array, Base64.DEFAULT);
      //
-        Intent myIntent = new Intent(ProfilePictureActivity.this, SelectVehicleActivity.class);
+        Intent myIntent = new Intent(ProfilePictureActivity.this, UploadDocumentsActivity.class);
         this.startActivity(myIntent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
