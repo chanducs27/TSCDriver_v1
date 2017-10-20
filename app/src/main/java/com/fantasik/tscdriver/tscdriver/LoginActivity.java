@@ -225,7 +225,7 @@ SessionManager session;
                             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                         }      else
                         {
-                            Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Wrong credentials.", Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new com.android.volley.Response.ErrorListener() {

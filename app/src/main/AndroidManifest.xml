@@ -79,9 +79,16 @@
         <activity
             android:name=".ProfilePictureActivity"
             android:theme="@style/TscCab" />
-        <activity android:name=".SettingsActivity"   android:theme="@style/TscCab" />
-        <activity android:name=".AboutActivity"  android:theme="@style/TscCab"  />
-        <activity android:name=".HelpActivity"  android:theme="@style/TscCab" ></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/TscCab" />
+        <activity
+            android:name=".AboutActivity"
+            android:theme="@style/TscCab" />
+        <activity
+            android:name=".HelpActivity"
+            android:theme="@style/TscCab" />
+        <activity android:name=".EditProfileActivity"  android:theme="@style/TscCab"></activity>
     </application>
 
 </manifest>
