@@ -16,4 +16,5 @@ public class DriverDetails
     public String vehyear;
     public String vehcolor;
     public String imgdriver;
+    public String rate;
 }
