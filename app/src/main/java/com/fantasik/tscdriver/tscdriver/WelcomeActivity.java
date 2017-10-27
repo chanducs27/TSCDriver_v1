@@ -66,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         String url = Base_URL + "/GetDriverDetailsById";
         final JSONObject GH =new JSONObject();
         try {
-            GH.put("driverid",session.getDriverDetails().get(SessionManager.KEY_ID));
+            GH.put("driverid",session.getDriverDetails().driverid);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -87,6 +87,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                     editor.putString("username", dd.username);
 
                     editor.apply();
+                    session.createLoginSession(dd.driverid, dd.name,dd.username,dd.mobile,dd.pass,dd.imgdriver,dd.rate,dd.vehbrand,dd.vehcolor,dd.vehtypeid,dd.vehyear);
+
 
                     Intent intent = new Intent(WelcomeActivity.this, DriverMainActivity.class);
                     startActivity(intent);

@@ -32,7 +32,7 @@ public class SessionManager {
     private static final String IS_LOGIN = "IsLoggedIn";
 
     // User name (make variable public to access from outside)
-    public static final String KEY_ID = "-1";
+    public static final String KEY_ID = "userid";
 
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
@@ -47,7 +47,7 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String driverid, String email){
+    public void createLoginSession(String driverid,String name, String username, String mobile, String pass, String image,String rate,String vehbrand,String vehcolor,String vehtypeid,String vehyear){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -55,7 +55,18 @@ public class SessionManager {
         editor.putString(KEY_ID, driverid);
 
         // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_EMAIL, username);
+        editor.putString("name", name);
+        editor.putString("mobile", mobile);
+        editor.putString("pass", pass);
+        editor.putString("image", image);
+        editor.putString("rate", rate);
+
+        editor.putString("vehbrand", vehbrand);
+        editor.putString("vehcolor", vehcolor);
+        editor.putString("vehtypeid", vehtypeid);
+        editor.putString("vehyear", vehyear);
+
 
         // commit changes
         editor.commit();
@@ -88,16 +99,24 @@ public class SessionManager {
     /**
      * Get stored session data
      * */
-    public HashMap<String, String> getDriverDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
+    public DriverDetails getDriverDetails(){
+
+        DriverDetails driver = new DriverDetails();
         // user name
-        user.put(KEY_ID, pref.getString(KEY_ID, null));
+        driver.driverid = pref.getString(KEY_ID, null);
+        driver.username = pref.getString(KEY_EMAIL, null);
+        driver.mobile= pref.getString("mobile", null);
+        driver.imgdriver = pref.getString("image", null);
+        driver.name = pref.getString("name", null);
+        driver.pass = pref.getString("pass",null);
+        driver.rate =pref.getString("rate",null);
 
-        // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-
+        driver.vehbrand =pref.getString("vehbrand",null);
+        driver.vehcolor =pref.getString("vehcolor",null);
+        driver.vehtypeid =pref.getString("vehtypeid",null);
+        driver.vehyear =pref.getString("vehyear",null);
         // return user
-        return user;
+        return driver;
     }
 
     /**

@@ -148,7 +148,7 @@ SessionManager session;
 
                         editor.apply();
 
-                        session.createLoginSession(dd.driverid, dd.username);
+                        session.createLoginSession(dd.driverid, dd.name,dd.username,dd.mobile,dd.pass,dd.imgdriver,dd.rate,dd.vehbrand,dd.vehcolor,dd.vehtypeid,dd.vehyear);
 
                         Intent intent = new Intent(LoginActivity.this, DriverMainActivity.class);
                         startActivity(intent);

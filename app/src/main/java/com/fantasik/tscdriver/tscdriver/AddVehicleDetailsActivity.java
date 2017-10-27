@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.fantasik.tscdriver.tscdriver.Agent.GsonRequest;
+import com.fantasik.tscdriver.tscdriver.Agent.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -80,6 +82,8 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
         gson = gsonBuilder.create();
+
+        session = new SessionManager(getApplicationContext());
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -91,7 +95,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
 
         return(super.onOptionsItemSelected(item));
     }
-
+    SessionManager session;
     @Override
     public void onClick(View v) {
         if (v == butNext) {
@@ -111,19 +115,19 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
 
             final JSONObject GH = new JSONObject();
             try {
-                GH.put("fname", editor.getString("fname", ""));
+                GH.put("fname", editor.getString("fname",""));
                 GH.put("lname", editor.getString("lname", ""));
                 GH.put("email", editor.getString("email", ""));
                 GH.put("phone", editor.getString("phone", ""));
                 GH.put("pass", editor.getString("passw", ""));
                 GH.put("address", "");
-                GH.put("vehbrand", tbrand.getText());
+                GH.put("vehbrand", tbrand.getText().toString());
                 GH.put("vehplateno", "");
-                GH.put("vehtypeid", editor.getString("vehtype", ""));
+                GH.put("vehtypeid", editor.getString("vehtype", "0"));
                 GH.put("vehyear", syear.getSelectedItem().toString());
-                GH.put("vehcolor", tcolor.getText());
+                GH.put("vehcolor", tcolor.getText().toString());
                 GH.put("filenamewithext", "");
-                GH.put("profilebytes", editor.getString("profileimage", ""));
+                GH.put("profilebytes", editor.getString("profileimage", null));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -131,7 +135,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 @Override
                 public void onResponse(String response) {
                     pd.dismiss();
-                    if (response != "-1") {
+                    if(response != null && !response.substring(1,response.length()- 1).equals("-1")) {
                         driverid = response;
 
                         SharedPreferences.Editor editord = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
@@ -139,6 +143,9 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                         editord.putString("pass", editor.getString("passw", ""));
 
                         editord.apply();
+
+                        session.createLoginSession(response.substring(1,response.length()- 1),editor.getString("fname", "") + "" + editor.getString("lname", ""),editor.getString("email", ""),
+                                editor.getString("phone", ""),editor.getString("passw", ""),editor.getString("profileimage", null),"0",tbrand.getText().toString(),tcolor.getText().toString(),editor.getString("vehtype", "0"),syear.getSelectedItem().toString()  );
 
                         Intent intent = new Intent(AddVehicleDetailsActivity.this, DriverMainActivity.class);
                         startActivity(intent);
@@ -149,6 +156,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     pd.dismiss();
+                    Toast.makeText(AddVehicleDetailsActivity.this, "Registration failed due to error.", Toast.LENGTH_LONG).show();
                 }
             }, GH);
 

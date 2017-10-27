@@ -73,34 +73,46 @@ public class UploadDocumentsActivity extends AppCompatActivity {
 
         return (super.onOptionsItemSelected(item));
     }
-
+    String[] mimetypes = {"application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword"};
     @OnClick({R.id.microcard, R.id.microcard2, R.id.microcard3, R.id.microcard4, R.id.butNext})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.microcard:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("file/*");
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
                 startActivityForResult(intent, 67);
                 if(!isCard1Upload)
                     imgcard1.setVisibility(View.VISIBLE);
                 break;
             case R.id.microcard2:
                 Intent intent2 = new Intent(Intent.ACTION_GET_CONTENT);
-                intent2.setType("file/*");
+                intent2.addCategory(Intent.CATEGORY_OPENABLE);
+                intent2.setType("*/*");
+
+                intent2.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
                 startActivityForResult(intent2, 67);
                 if(!isCard2Upload)
                     imgcard2.setVisibility(View.VISIBLE);
                 break;
             case R.id.microcard3:
                 Intent intent3 = new Intent(Intent.ACTION_GET_CONTENT);
-                intent3.setType("file/*");
+                intent3.addCategory(Intent.CATEGORY_OPENABLE);
+                intent3.setType("*/*");
+
+                intent3.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
                 startActivityForResult(intent3, 67);
-                if(!isCard1Upload)
+                if(!isCard3Upload)
                     imgcard3.setVisibility(View.VISIBLE);
                 break;
             case R.id.microcard4:
                 Intent intent4 = new Intent(Intent.ACTION_GET_CONTENT);
-                intent4.setType("file/*");
+                intent4.addCategory(Intent.CATEGORY_OPENABLE);
+                intent4.setType("*/*");
+
+                intent4.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
                 startActivityForResult(intent4, 67);
                 if(!isCard4Upload)
                     imgcard4.setVisibility(View.VISIBLE);
