@@ -127,7 +127,15 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 GH.put("vehyear", syear.getSelectedItem().toString());
                 GH.put("vehcolor", tcolor.getText().toString());
                 GH.put("filenamewithext", "");
-                GH.put("profilebytes", editor.getString("profileimage", null));
+                GH.put("profilebytes", "");
+               GH.put("f1", editor.getString("f1", ""));
+                GH.put("f1ext", editor.getString("f1ext", ""));
+                GH.put("f2", editor.getString("f2", ""));
+                GH.put("f2ext", editor.getString("f2ext", ""));
+                GH.put("f3", editor.getString("f3", ""));
+                GH.put("f3ext", editor.getString("f3ext", ""));
+                GH.put("f4", editor.getString("f4", ""));
+                GH.put("f4ext", editor.getString("f4ext", ""));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -156,6 +164,7 @@ public class AddVehicleDetailsActivity extends AppCompatActivity implements View
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     pd.dismiss();
+                    String jsonError = new String(error.networkResponse.data);
                     Toast.makeText(AddVehicleDetailsActivity.this, "Registration failed due to error.", Toast.LENGTH_LONG).show();
                 }
             }, GH);
